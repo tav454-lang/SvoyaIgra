@@ -1,0 +1,387 @@
+/* ==========================================================
+   СВОЯ ИГРА - СТИЛИ v5 FINAL
+========================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #0b1b3a 0%, #0f2347 100%);
+    color: white;
+    min-height: 100vh;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* ========================================================== 
+   ТОП БАР 
+========================================================== */
+
+#topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: linear-gradient(90deg, #102a5c 0%, #1e3f7a 100%);
+    border-bottom: 3px solid #4a90e2;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+#topBar h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #4a90e2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    flex: 1;
+}
+
+#topBar > div {
+    font-size: 18px;
+    font-weight: bold;
+    flex: 1;
+    text-align: center;
+}
+
+/* ========================================================== 
+   ГЛАВНАЯ ОБЛАСТЬ 
+========================================================== */
+
+main {
+    display: flex;
+    flex: 1;
+    gap: 0;
+}
+
+/* ========================================================== 
+   БОКОВАЯ ПАНЕЛЬ (ИГРОКИ) 
+========================================================== */
+
+#sidebar {
+    width: 280px;
+    background: #0f2347;
+    padding: 15px;
+    border-right: 2px solid #4a90e2;
+    overflow-y: auto;
+}
+
+#sidebar h3 {
+    margin: 0 0 15px 0;
+    color: #4a90e2;
+    border-bottom: 2px solid #4a90e2;
+    padding-bottom: 10px;
+}
+
+#playersList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.player {
+    background: linear-gradient(135deg, #1c2436 0%, #2c3e50 100%);
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid #4a90e2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.player:hover {
+    background: linear-gradient(135deg, #2c3e50 0%, #3a4f63 100%);
+    border-left-color: #ff6b6b;
+}
+
+.player span:first-child {
+    flex: 1;
+}
+
+.player span:last-child {
+    color: #4a90e2;
+    font-size: 18px;
+    min-width: 60px;
+    text-align: right;
+}
+
+/* ========================================================== 
+   ИГРОВАЯ ДОСКА 
+========================================================== */
+
+#gameBoard {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    padding: 15px;
+    overflow: auto;
+    align-content: start;
+}
+
+.category {
+    background: linear-gradient(135deg, #1e3f7a 0%, #2c5fb3 100%);
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 2px solid #4a90e2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    user-select: none;
+}
+
+.question {
+    background: linear-gradient(135deg, #2c5fb3 0%, #3d7cd6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 6px;
+    border: 2px solid #5a9fd4;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+    color: #fff;
+    min-height: 60px;
+}
+
+.question:hover:not(.used) {
+    background: linear-gradient(135deg, #3d7cd6 0%, #4a8de5 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.question.used {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    color: #555;
+    cursor: not-allowed;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* ========================================================== 
+   МОДАЛЬНЫЕ ОКНА 
+========================================================== */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modalContent {
+    background: linear-gradient(135deg, #1b3b75 0%, #2c5fb3 100%);
+    padding: 30px;
+    border-radius: 12px;
+    min-width: 400px;
+    max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid #4a90e2;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modalContent h2 {
+    margin: 0 0 20px 0;
+    color: #4a90e2;
+    text-align: center;
+    font-size: 24px;
+}
+
+.modalHeader {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.questionText {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+    min-height: 60px;
+}
+
+.answerText {
+    background: rgba(76, 175, 80, 0.2);
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+    border-left: 4px solid #4caf50;
+    font-weight: bold;
+    color: #c8e6c9;
+}
+
+.finalCategory {
+    text-align: center;
+    color: #ffd700;
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.modalActions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ========================================================== 
+   КНОПКИ 
+========================================================== */
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: #4a90e2;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #357abd;
+}
+
+.btn-secondary {
+    background: #666;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #555;
+}
+
+.btn-info {
+    background: #2196F3;
+    color: white;
+}
+
+.btn-info:hover {
+    background: #0b7dda;
+}
+
+.btn-success {
+    background: #4caf50;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #388e3c;
+}
+
+.btn-danger {
+    background: #ff6b6b;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #e63946;
+}
+
+/* ========================================================== 
+   ВСПОМОГАТЕЛЬНЫЕ КЛАССЫ 
+========================================================== */
+
+.hidden {
+    display: none !important;
+}
+
+/* ========================================================== 
+   АДАПТИВНЫЙ ДИЗАЙН 
+========================================================== */
+
+@media (max-width: 1200px) {
+    #gameBoard {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid #4a90e2;
+    }
+
+    #gameBoard {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .modalContent {
+        min-width: 90vw;
+        max-width: 90vw;
+        padding: 20px;
+    }
+
+    #topBar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #topBar h1 {
+        font-size: 24px;
+    }
+}
