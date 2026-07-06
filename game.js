@@ -65,17 +65,637 @@ class GameEngine {
 
     async init() {
 
+        console.log("Инициализация игры...");
+
         try {
             const res = await fetch("questions.json");
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
             this.questions = await res.json();
+            console.log(`Загружено вопросов: ${this.questions.length}`);
         } catch (e) {
-            console.warn("questions.json not loaded, using defaults");
-            this.questions = [];
+            console.error("Ошибка загрузки questions.json:", e);
+            this.loadDefaultQuestions();
         }
 
         this.bootstrap();
         this.bindUIEvents();
 
+    }
+
+    loadDefaultQuestions() {
+        console.warn("Используются вопросы по умолчанию");
+        this.questions = [
+            {
+                "id": "q1",
+                "round": 1,
+                "category": "История",
+                "question": "Кто открыл Америку?",
+                "answer": "Христофор Колумб",
+                "type": "normal"
+            },
+            {
+                "id": "q2",
+                "round": 1,
+                "category": "История",
+                "question": "В каком году была революция во Франции?",
+                "answer": "1789",
+                "type": "normal"
+            },
+            {
+                "id": "q3",
+                "round": 1,
+                "category": "История",
+                "question": "Кто был первым президентом США?",
+                "answer": "Джордж Вашингтон",
+                "type": "normal"
+            },
+            {
+                "id": "q4",
+                "round": 1,
+                "category": "История",
+                "question": "В каком году началась Вторая мировая война?",
+                "answer": "1939",
+                "type": "normal"
+            },
+            {
+                "id": "q5",
+                "round": 1,
+                "category": "История",
+                "question": "Кто написал Конституцию России 1993?",
+                "answer": "Борис Ельцин",
+                "type": "normal"
+            },
+            {
+                "id": "q6",
+                "round": 1,
+                "category": "Наука",
+                "question": "Что такое H2O?",
+                "answer": "Вода",
+                "type": "normal"
+            },
+            {
+                "id": "q7",
+                "round": 1,
+                "category": "Наука",
+                "question": "Сколько планет в Солнечной системе?",
+                "answer": "8 планет",
+                "type": "normal"
+            },
+            {
+                "id": "q8",
+                "round": 1,
+                "category": "Наука",
+                "question": "Кто открыл закон всемирного тяготения?",
+                "answer": "Исаак Ньютон",
+                "type": "normal"
+            },
+            {
+                "id": "q9",
+                "round": 1,
+                "category": "Наука",
+                "question": "Из скольких букв состоит ДНК?",
+                "answer": "4 буквы (А, Г, Ц, Т)",
+                "type": "normal"
+            },
+            {
+                "id": "q10",
+                "round": 1,
+                "category": "Наука",
+                "question": "Какой газ необходим для дыхания?",
+                "answer": "Кислород",
+                "type": "normal"
+            },
+            {
+                "id": "q11",
+                "round": 1,
+                "category": "Литература",
+                "question": "Кто написал 'Война и мир'?",
+                "answer": "Лев Толстой",
+                "type": "normal"
+            },
+            {
+                "id": "q12",
+                "round": 1,
+                "category": "Литература",
+                "question": "Кто написал 'Преступление и наказание'?",
+                "answer": "Федор Достоевский",
+                "type": "normal"
+            },
+            {
+                "id": "q13",
+                "round": 1,
+                "category": "Литература",
+                "question": "Кто автор 'Мастера и Маргариты'?",
+                "answer": "Михаил Булгаков",
+                "type": "normal"
+            },
+            {
+                "id": "q14",
+                "round": 1,
+                "category": "Литература",
+                "question": "Как зовут главного персонажа 'Евгения Онегина'?",
+                "answer": "Евгений Онегин",
+                "type": "normal"
+            },
+            {
+                "id": "q15",
+                "round": 1,
+                "category": "Литература",
+                "question": "Кто написал 'Мертвые души'?",
+                "answer": "Николай Гоголь",
+                "type": "normal"
+            },
+            {
+                "id": "q16",
+                "round": 1,
+                "category": "География",
+                "question": "Какой город столица России?",
+                "answer": "Москва",
+                "type": "normal"
+            },
+            {
+                "id": "q17",
+                "round": 1,
+                "category": "География",
+                "question": "Какая река самая длинная в мире?",
+                "answer": "Нил",
+                "type": "normal"
+            },
+            {
+                "id": "q18",
+                "round": 1,
+                "category": "География",
+                "question": "На каком материке ��аходится Австралия?",
+                "answer": "Австралия (материк)",
+                "type": "normal"
+            },
+            {
+                "id": "q19",
+                "round": 1,
+                "category": "География",
+                "question": "Какая столица Франции?",
+                "answer": "Париж",
+                "type": "normal"
+            },
+            {
+                "id": "q20",
+                "round": 1,
+                "category": "География",
+                "question": "Сколько материков на Земле?",
+                "answer": "7 материков",
+                "type": "normal"
+            },
+            {
+                "id": "q21",
+                "round": 1,
+                "category": "Спорт",
+                "question": "Сколько игроков в футбольной команде на поле?",
+                "answer": "11 игроков",
+                "type": "normal"
+            },
+            {
+                "id": "q22",
+                "round": 1,
+                "category": "Спорт",
+                "question": "В каком году прошли первые Олимпийские игры современности?",
+                "answer": "1896",
+                "type": "normal"
+            },
+            {
+                "id": "q23",
+                "round": 1,
+                "category": "Спорт",
+                "question": "Сколько периодов в хоккее?",
+                "answer": "3 периода",
+                "type": "normal"
+            },
+            {
+                "id": "q24",
+                "round": 1,
+                "category": "Спорт",
+                "question": "На какой высоте установлена волейбольная сетка для мужчин?",
+                "answer": "2,43 метра",
+                "type": "normal"
+            },
+            {
+                "id": "q25",
+                "round": 1,
+                "category": "Спорт",
+                "question": "Сколько шахматных фигур у каждого игрока?",
+                "answer": "16 фигур",
+                "type": "normal"
+            },
+            {
+                "id": "q26",
+                "round": 2,
+                "category": "История",
+                "question": "Кто был первым императором России?",
+                "answer": "Петр I",
+                "type": "normal"
+            },
+            {
+                "id": "q27",
+                "round": 2,
+                "category": "История",
+                "question": "В каком году произошла Октябрьская революция?",
+                "answer": "1917",
+                "type": "normal"
+            },
+            {
+                "id": "q28",
+                "round": 2,
+                "category": "История",
+                "question": "Кто победил Наполеона?",
+                "answer": "Разные ответы (русская армия, Кутузов, союзники)",
+                "type": "normal"
+            },
+            {
+                "id": "q29",
+                "round": 2,
+                "category": "История",
+                "question": "В каком году распалась Советский Союз?",
+                "answer": "1991",
+                "type": "normal"
+            },
+            {
+                "id": "q30",
+                "round": 2,
+                "category": "История",
+                "question": "Какой город был столицей Золотой Орды?",
+                "answer": "Сарай",
+                "type": "normal"
+            },
+            {
+                "id": "q31",
+                "round": 2,
+                "category": "Наука",
+                "question": "Кто открыл радиоактивность?",
+                "answer": "Антуан Беккерель и Мария Кюри",
+                "type": "normal"
+            },
+            {
+                "id": "q32",
+                "round": 2,
+                "category": "��аука",
+                "question": "Какой элемент имеет символ Au?",
+                "answer": "Золото",
+                "type": "normal"
+            },
+            {
+                "id": "q33",
+                "round": 2,
+                "category": "Наука",
+                "question": "Сколько костей в теле взрослого человека?",
+                "answer": "206 костей",
+                "type": "normal"
+            },
+            {
+                "id": "q34",
+                "round": 2,
+                "category": "Наука",
+                "question": "Кто разработал теорию относительности?",
+                "answer": "Альберт Эйнштейн",
+                "type": "normal"
+            },
+            {
+                "id": "q35",
+                "round": 2,
+                "category": "Наука",
+                "question": "Какая скорость света в вакууме?",
+                "answer": "300 000 км/с",
+                "type": "normal"
+            },
+            {
+                "id": "q36",
+                "round": 2,
+                "category": "Литература",
+                "question": "Кто автор 'Анны Карениной'?",
+                "answer": "Лев Толстой",
+                "type": "normal"
+            },
+            {
+                "id": "q37",
+                "round": 2,
+                "category": "Литература",
+                "question": "Сколько сыновей у графа Орлова в 'Войне и мире'?",
+                "answer": "3 сына",
+                "type": "normal"
+            },
+            {
+                "id": "q38",
+                "round": 2,
+                "category": "Литература",
+                "question": "Как зовут главную героиню 'Грозы' Островского?",
+                "answer": "Катерина",
+                "type": "normal"
+            },
+            {
+                "id": "q39",
+                "round": 2,
+                "category": "Литература",
+                "question": "Кто написал 'Ревизора'?",
+                "answer": "Николай Гоголь",
+                "type": "normal"
+            },
+            {
+                "id": "q40",
+                "round": 2,
+                "category": "Литература",
+                "question": "Как звали первого деспота в 'Евгении Онегине'?",
+                "answer": "Татьяна",
+                "type": "normal"
+            },
+            {
+                "id": "q41",
+                "round": 2,
+                "category": "География",
+                "question": "Какая столица Италии?",
+                "answer": "Рим",
+                "type": "normal"
+            },
+            {
+                "id": "q42",
+                "round": 2,
+                "category": "География",
+                "question": "Какой остров самый большой в мире?",
+                "answer": "Гренландия",
+                "type": "normal"
+            },
+            {
+                "id": "q43",
+                "round": 2,
+                "category": "География",
+                "question": "Какой город находится в Швейцарии?",
+                "answer": "Берн, Цюрих, Женева (на выбор)",
+                "type": "normal"
+            },
+            {
+                "id": "q44",
+                "round": 2,
+                "category": "География",
+                "question": "На скольких озерах стоит город Цюрих?",
+                "answer": "1 озеро",
+                "type": "normal"
+            },
+            {
+                "id": "q45",
+                "round": 2,
+                "category": "География",
+                "question": "Какая самая высокая гора в мире?",
+                "answer": "Эверест",
+                "type": "normal"
+            },
+            {
+                "id": "q46",
+                "round": 2,
+                "category": "Спорт",
+                "question": "Сколько голов забила Россия на Олимпиаде 1980?",
+                "answer": "разные ответы",
+                "type": "normal"
+            },
+            {
+                "id": "q47",
+                "round": 2,
+                "category": "Спорт",
+                "question": "В каком виде спорта используется клюшка?",
+                "answer": "Хоккей, гольф, крокет",
+                "type": "normal"
+            },
+            {
+                "id": "q48",
+                "round": 2,
+                "category": "Спорт",
+                "question": "Сколько раз в день тренируются профессиональные пловцы?",
+                "answer": "1-2 раза",
+                "type": "normal"
+            },
+            {
+                "id": "q49",
+                "round": 2,
+                "category": "Спорт",
+                "question": "В какой стране ро��ился теннис?",
+                "answer": "Франция",
+                "type": "normal"
+            },
+            {
+                "id": "q50",
+                "round": 2,
+                "category": "Спорт",
+                "question": "Сколько раундов в боксе?",
+                "answer": "3 раунда (или разные в зависимости от типа боя)",
+                "type": "normal"
+            },
+            {
+                "id": "q51",
+                "round": 3,
+                "category": "История",
+                "question": "Кто был последним русским императором?",
+                "answer": "Николай II",
+                "type": "normal"
+            },
+            {
+                "id": "q52",
+                "round": 3,
+                "category": "История",
+                "question": "В каком году началась Первая мировая война?",
+                "answer": "1914",
+                "type": "normal"
+            },
+            {
+                "id": "q53",
+                "round": 3,
+                "category": "История",
+                "question": "Кто был лидером Германии во время Второй мировой войны?",
+                "answer": "Адольф Гитлер",
+                "type": "normal"
+            },
+            {
+                "id": "q54",
+                "round": 3,
+                "category": "История",
+                "question": "В каком году произошел распад Югославии?",
+                "answer": "1991-1992",
+                "type": "normal"
+            },
+            {
+                "id": "q55",
+                "round": 3,
+                "category": "История",
+                "question": "Кто был первым президентом Германии после объединения?",
+                "answer": "Гельмут Коль",
+                "type": "normal"
+            },
+            {
+                "id": "q56",
+                "round": 3,
+                "category": "Наука",
+                "question": "Сколько групп крови у человека?",
+                "answer": "4 группы",
+                "type": "normal"
+            },
+            {
+                "id": "q57",
+                "round": 3,
+                "category": "Наука",
+                "question": "Какой процесс происходит в растениях для получения энергии?",
+                "answer": "Фотосинтез",
+                "type": "normal"
+            },
+            {
+                "id": "q58",
+                "round": 3,
+                "category": "Наука",
+                "question": "Кто открыл пенициллин?",
+                "answer": "Александр Флеминг",
+                "type": "normal"
+            },
+            {
+                "id": "q59",
+                "round": 3,
+                "category": "Наука",
+                "question": "Какой химический элемент самый тяжелый?",
+                "answer": "Уран или Плутоний",
+                "type": "normal"
+            },
+            {
+                "id": "q60",
+                "round": 3,
+                "category": "Наука",
+                "question": "Сколько континентов на Земле?",
+                "answer": "6 или 7 континентов",
+                "type": "normal"
+            },
+            {
+                "id": "q61",
+                "round": 3,
+                "category": "Литература",
+                "question": "Какой век называют 'Золотым веком' русской литературы?",
+                "answer": "XIX век",
+                "type": "normal"
+            },
+            {
+                "id": "q62",
+                "round": 3,
+                "category": "Литература",
+                "question": "Сколько романов написал Иван Тургенев?",
+                "answer": "6 романов",
+                "type": "normal"
+            },
+            {
+                "id": "q63",
+                "round": 3,
+                "category": "Литература",
+                "question": "Кто написал 'Горе от ума'?",
+                "answer": "Александр Грибоедов",
+                "type": "normal"
+            },
+            {
+                "id": "q64",
+                "round": 3,
+                "category": "Литература",
+                "question": "Как зовут главного героя 'Братьев Карамазовых'?",
+                "answer": "Разные персонажи (Дмитрий, Иван, Алёша)",
+                "type": "normal"
+            },
+            {
+                "id": "q65",
+                "round": 3,
+                "category": "Литература",
+                "question": "Кто автор 'Портрета Дориана Грея'?",
+                "answer": "Оскар Уайльд",
+                "type": "normal"
+            },
+            {
+                "id": "q66",
+                "round": 3,
+                "category": "География",
+                "question": "Какой канал соединяет Атлантический и Тихий океаны?",
+                "answer": "Панамский канал",
+                "type": "normal"
+            },
+            {
+                "id": "q67",
+                "round": 3,
+                "category": "География",
+                "question": "Какая столица Бразилии?",
+                "answer": "Бразилиа",
+                "type": "normal"
+            },
+            {
+                "id": "q68",
+                "round": 3,
+                "category": "География",
+                "question": "На каком материке находится Египет?",
+                "answer": "Африка",
+                "type": "normal"
+            },
+            {
+                "id": "q69",
+                "round": 3,
+                "category": "География",
+                "question": "Какой город находится на границе Европы и Азии?",
+                "answer": "Стамбул",
+                "type": "normal"
+            },
+            {
+                "id": "q70",
+                "round": 3,
+                "category": "География",
+                "question": "Какой город самый большой по площади в мире?",
+                "answer": "Москва или Нью-Йорк",
+                "type": "normal"
+            },
+            {
+                "id": "q71",
+                "round": 3,
+                "category": "Спорт",
+                "question": "В каком году была первая Олимпиада в России?",
+                "answer": "2014 (Сочи)",
+                "type": "normal"
+            },
+            {
+                "id": "q72",
+                "round": 3,
+                "category": "Спорт",
+                "question": "Сколько фигур в шахматах может быть максимум?",
+                "answer": "16 фигур",
+                "type": "normal"
+            },
+            {
+                "id": "q73",
+                "round": 3,
+                "category": "Спорт",
+                "question": "Какое расстояние марафон?",
+                "answer": "42 км и 195 метров",
+                "type": "normal"
+            },
+            {
+                "id": "q74",
+                "round": 3,
+                "category": "Спорт",
+                "question": "В каком году были первые Чемпионаты мира по футболу?",
+                "answer": "1930",
+                "type": "normal"
+            },
+            {
+                "id": "q75",
+                "round": 3,
+                "category": "Спорт",
+                "question": "Сколько дорожек на стадионе?",
+                "answer": "8 дорожек",
+                "type": "normal"
+            },
+            {
+                "id": "final1",
+                "round": 3,
+                "category": "🏆 ФИНАЛ",
+                "question": "Какой самый глубокий океан на Земле?",
+                "answer": "Тихий океан (максимальная глубина - Марианская впадина, 11034 метра)",
+                "type": "final"
+            }
+        ];
     }
 
     bootstrap() {
@@ -108,6 +728,7 @@ class GameEngine {
 
         if (qs.length === 0) {
             console.warn(`No questions for round ${round}`);
+            alert("Нет вопросов для раунда " + round);
             return;
         }
 
