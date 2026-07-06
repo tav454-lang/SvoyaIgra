@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Своя Игра</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="game.js" defer></script>
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- ТОП БАР -->
+    <div id="topBar">
+      <h1>Своя Игра</h1>
+      <div>Раунд: <span id="roundDisplay">1</span></div>
+      <button id="resetBtn" class="btn-danger">Сброс</button>
+    </div>
+
+    <!-- ГЛАВНАЯ ОБЛАСТЬ -->
+    <main>
+
+      <!-- БОКОВАЯ ПАНЕЛЬ (ИГРОКИ) -->
+      <div id="sidebar">
+        <h3>Игроки</h3>
+        <div id="playersList"></div>
+        <button id="addPlayerBtn" class="btn-primary" style="width: 100%; margin-top: 10px;">+ Игрок</button>
+      </div>
+
+      <!-- ДОСКА -->
+      <div id="gameBoard"></div>
+
+    </main>
+
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: ВОПРОС -->
+  <div id="questionModal" class="modal hidden">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <span id="questionCategory"></span> — 
+        <span id="questionPrice"></span> ₽
+        <span id="timerDisplay" style="float: right; color: #ff6b6b;">30</span>
+      </div>
+      <div id="questionText" class="questionText"></div>
+      <div class="modalActions">
+        <button id="showAnswerBtn" class="btn-info">Показать ответ</button>
+        <button id="closeQuestionBtn" class="btn-secondary">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: ОТВЕТ -->
+  <div id="answerModal" class="modal hidden">
+    <div class="modalContent">
+      <h2>Ответ</h2>
+      <div id="answerText" class="answerText"></div>
+      <div class="modalActions">
+        <button id="correctBtn" class="btn-success">✓ Верно</button>
+        <button id="wrongBtn" class="btn-danger">✗ Неверно</button>
+        <button id="closeAnswerBtn" class="btn-secondary">Пропустить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: ВЫБОР ИГРОКА -->
+  <div id="playerSelectModal" class="modal hidden">
+    <div class="modalContent">
+      <h2>Выберите игрока</h2>
+      <div id="playerSelectButtons"></div>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: ФИНАЛ -->
+  <div id="finalModal" class="modal hidden">
+    <div class="modalContent">
+      <h2>🏆 ФИНАЛЬНЫЙ ВОПРОС 🏆</h2>
+      <div id="finalCategory" class="finalCategory"></div>
+      <div id="finalQuestion" class="questionText"></div>
+      <button id="showFinalAnswerBtn" class="btn-info">Показать ответ</button>
+      <div id="finalAnswer" class="answerText hidden" style="margin-top: 20px;"></div>
+      <div class="modalActions">
+        <button id="closeFinalBtn" class="btn-secondary">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
